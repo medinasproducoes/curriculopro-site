@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CurrículoPro | Crie seu currículo profissional em 10 minutos</title>
+    <meta name="description" content="Crie um currículo profissional perfeito, aprovado por recrutadores e sistemas ATS (robôs de triagem). Exportação em PDF e Word. 100% seguro e privado.">
+    <!-- Open Graph (compartilhamento em WhatsApp e redes sociais) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="CurrículoPro | Currículo profissional pronto em 10 minutos">
+    <meta property="og:description" content="Crie um currículo aprovado por recrutadores e robôs de triagem (ATS). 5 modelos, exportação em PDF e Word, pagamento único.">
+    <meta property="og:locale" content="pt_BR">
+    <!-- IMPORTANTE: após publicar, substitua SEUDOMINIO pela URL real e adicione a imagem 1200x630 em img/og-capa.png -->
+    <meta property="og:url" content="https://SEUDOMINIO.com.br/">
+    <meta property="og:image" content="https://SEUDOMINIO.com.br/img/og-capa-web.jpg">
+    <link rel="icon" type="image/png" href="img/favicon-web.png">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts (Inter, Playfair Display para contraste elegante) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased selection:bg-indigo-500 selection:text-white">
+
+    <!-- Navbar -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">C</div>
+                <span class="text-xl font-bold tracking-tight text-slate-900">Currículo<span class="text-indigo-600">Pro</span></span>
+            </div>
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+                <a href="#como-funciona" class="hover:text-indigo-600 transition-colors">Como Funciona</a>
+                <a href="#beneficios" class="hover:text-indigo-600 transition-colors">Benefícios</a>
+                <a href="#modelos" class="hover:text-indigo-600 transition-colors">Modelos</a>
+                <a href="#preco" class="hover:text-indigo-600 transition-colors">Preço</a>
+                <a href="#faq" class="hover:text-indigo-600 transition-colors">FAQ</a>
+            </nav>
+            <div>
+                <a href="#preco" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all shadow-sm shadow-indigo-100">Criar Currículo</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative overflow-hidden py-20 lg:py-32 bg-gradient-to-b from-white to-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7 text-center lg:text-left">
+                        <div class="inline-flex items-center gap-2 bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-xs font-semibold mb-6">
+                            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944a11.954 11.954 0 007.834 3.056 10.03 10.03 0 01-1.378 5.617 11.944 11.944 0 01-5.742 5.102 11.944 11.944 0 01-5.742-5.102 10.03 10.03 0 01-1.378-5.617zm9.026 3.707a1 1 0 00-1.414-1.414L7 9.914 5.707 8.621a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            Privacidade garantida: Seus dados nunca saem do seu computador
+                        </div>
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-none mb-6">
+                            Seu currículo pronto em <span class="text-indigo-600">10 minutos</span>. Aprovado por robôs de triagem.
+                        </h1>
+                        <p class="text-lg text-slate-600 mb-8 max-w-2xl mx-auto lg:mx-0">
+                            Do primeiro emprego ao nível acadêmico mais avançado. Gere um documento impecável, otimizado para sistemas ATS e conquiste mais entrevistas.
+                        </p>
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                            <a href="#preco" class="w-full sm:w-auto text-center bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-md shadow-indigo-200 hover:-translate-y-0.5">
+                                Criar meu currículo agora
+                            </a>
+                            <a href="#modelos" class="w-full sm:w-auto text-center bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-8 py-4 rounded-xl font-semibold text-lg transition-all">
+                                Ver modelos profissionais
+                            </a>
+                        </div>
+                        <div class="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-slate-500">
+                            <span class="flex items-center gap-1"><svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Compatível com ATS</span>
+                            <span class="flex items-center gap-1"><svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Exportação PDF e Word</span>
+                            <span class="flex items-center gap-1"><svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Sem assinaturas ocultas</span>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-5 relative">
+                        <div class="bg-white rounded-2xl shadow-xl border border-slate-200/60 p-4 transform lg:rotate-2 hover:rotate-0 transition-transform duration-500">
+                            <div class="border-b border-slate-100 pb-3 mb-4 flex items-center justify-between">
+                                <div class="flex gap-1.5">
+                                    <span class="w-3 h-3 rounded-full bg-rose-400"></span>
+                                    <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                                    <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                                </div>
+                                <span class="text-xs font-medium text-slate-400">Preview em tempo real</span>
+                            </div>
+                            <img src="img/hero-curriculo-web.jpg" alt="Prévia de um currículo profissional criado no CurrículoPro" width="1000" height="1339" class="rounded-lg w-full border border-slate-200" fetchpriority="high">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Como Funciona -->
+        <section id="como-funciona" class="py-20 bg-white border-y border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl mb-4">Criar seu currículo nunca foi tão simples</h2>
+                    <p class="text-lg text-slate-600">Três passos rápidos separam você da sua próxima oportunidade profissional.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 relative">
+                    <div class="text-center space-y-4 p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                        <div class="w-12 h-12 bg-indigo-600 text-white rounded-xl flex items-center justify-center text-xl font-bold mx-auto shadow-sm">1</div>
+                        <h3 class="text-xl font-bold text-slate-900">Preencha os dados</h3>
+                        <p class="text-slate-600 text-sm">Insira suas informações passo a passo em um assistente inteligente com dicas em tempo real para valorizar seu perfil.</p>
+                    </div>
+                    <div class="text-center space-y-4 p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                        <div class="w-12 h-12 bg-indigo-600 text-white rounded-xl flex items-center justify-center text-xl font-bold mx-auto shadow-sm">2</div>
+                        <h3 class="text-xl font-bold text-slate-900">Escolha o modelo</h3>
+                        <p class="text-slate-600 text-sm">Alterne instantaneamente entre 5 modelos de alta conversão, desde layouts focados em IA (ATS) até modelos acadêmicos completos.</p>
+                    </div>
+                    <div class="text-center space-y-4 p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                        <div class="w-12 h-12 bg-indigo-600 text-white rounded-xl flex items-center justify-center text-xl font-bold mx-auto shadow-sm">3</div>
+                        <h3 class="text-xl font-bold text-slate-900">Baixe em PDF ou Word</h3>
+                        <p class="text-slate-600 text-sm">Exporte o arquivo final formatado perfeitamente pronto para impressão ou envio digital para as plataformas de vaga.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefícios -->
+        <section id="beneficios" class="py-20 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl mb-4">Por que escolher o CurrículoPro?</h2>
+                    <p class="text-lg text-slate-600">Desenvolvido sob a ótica de recrutadores e especialistas em tecnologia de triagem.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200/60 space-y-3">
+                        <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg></div>
+                        <h3 class="text-lg font-bold text-slate-900">100% Compatível com ATS</h3>
+                        <p class="text-slate-600 text-sm">Os modelos são estruturados para que os robôs de leitura de currículos identifiquem perfeitamente suas competências sem erros de leitura.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200/60 space-y-3">
+                        <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg></div>
+                        <h3 class="text-lg font-bold text-slate-900">Privacidade Absoluta</h3>
+                        <p class="text-slate-600 text-sm">Seus dados pessoais pertencem unicamente a você. O processamento ocorre localmente em seu navegador; nada vai para um servidor externo.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200/60 space-y-3">
+                        <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg></div>
+                        <h3 class="text-lg font-bold text-slate-900">Funciona Perfeitamente no Celular</h3>
+                        <p class="text-slate-600 text-sm">Tanto a landing page quanto o editor de currículos se adaptam com maestria à sua tela de smartphone para criar de onde estiver.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modelos -->
+        <section id="modelos" class="py-20 bg-white border-b border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl mb-4">5 modelos profissionais, um clique para trocar</h2>
+                    <p class="text-lg text-slate-600">Preencha uma única vez e alterne entre os layouts instantaneamente, com cores, fontes e espaçamentos personalizáveis.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                    <!-- Modelo Essencial (ATS) -->
+                    <div class="group">
+                        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-3 aspect-[3/4] space-y-2 overflow-hidden transition-all group-hover:shadow-lg group-hover:-translate-y-1">
+                            <div class="h-2.5 bg-slate-800 rounded w-3/4"></div>
+                            <div class="h-1.5 bg-indigo-400 rounded w-1/2"></div>
+                            <div class="h-px bg-slate-200 my-1"></div>
+                            <div class="h-1.5 bg-slate-300 rounded w-1/3"></div>
+                            <div class="space-y-1"><div class="h-1 bg-slate-200 rounded"></div><div class="h-1 bg-slate-200 rounded w-5/6"></div><div class="h-1 bg-slate-200 rounded w-4/6"></div></div>
+                            <div class="h-1.5 bg-slate-300 rounded w-1/3 mt-2"></div>
+                            <div class="space-y-1"><div class="h-1 bg-slate-200 rounded"></div><div class="h-1 bg-slate-200 rounded w-5/6"></div></div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <p class="font-bold text-sm text-slate-900">Essencial</p>
+                            <span class="inline-block mt-1 text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full">Recomendado p/ ATS</span>
+                        </div>
+                    </div>
+                    <!-- Modelo Executivo -->
+                    <div class="group">
+                        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-3 aspect-[3/4] space-y-2 overflow-hidden transition-all group-hover:shadow-lg group-hover:-translate-y-1">
+                            <div class="border-y-2 border-slate-800 py-2 space-y-1.5">
+                                <div class="h-2.5 bg-slate-800 rounded w-2/3 mx-auto"></div>
+                                <div class="h-1 bg-slate-300 rounded w-1/2 mx-auto"></div>
+                            </div>
+                            <div class="h-1.5 bg-slate-300 rounded w-1/3 mx-auto mt-2"></div>
+                            <div class="space-y-1"><div class="h-1 bg-slate-200 rounded"></div><div class="h-1 bg-slate-200 rounded w-5/6 mx-auto"></div><div class="h-1 bg-slate-200 rounded w-4/6 mx-auto"></div></div>
+                            <div class="h-1.5 bg-slate-300 rounded w-1/3 mx-auto mt-2"></div>
+                            <div class="space-y-1"><div class="h-1 bg-slate-200 rounded"></div><div class="h-1 bg-slate-200 rounded w-5/6 mx-auto"></div></div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <p class="font-bold text-sm text-slate-900">Executivo</p>
+                            <p class="text-[10px] text-slate-500 mt-1">Gerência e liderança</p>
+                        </div>
+                    </div>
+                    <!-- Modelo Moderno -->
+                    <div class="group">
+                        <div class="bg-white border border-slate-200 rounded-xl shadow-sm aspect-[3/4] overflow-hidden flex transition-all group-hover:shadow-lg group-hover:-translate-y-1">
+                            <div class="w-1/3 bg-indigo-600 p-2 space-y-2">
+                                <div class="w-6 h-6 bg-white/30 rounded-full mx-auto"></div>
+                                <div class="h-1 bg-white/50 rounded"></div>
+                                <div class="h-1 bg-white/40 rounded w-5/6"></div>
+                                <div class="h-1 bg-white/40 rounded w-4/6"></div>
+                            </div>
+                            <div class="flex-1 p-2.5 space-y-1.5">
+                                <div class="h-2 bg-slate-800 rounded w-3/4"></div>
+                                <div class="h-1.5 bg-indigo-400 rounded w-1/2 mt-1"></div>
+                                <div class="space-y-1 mt-2"><div class="h-1 bg-slate-200 rounded"></div><div class="h-1 bg-slate-200 rounded w-5/6"></div><div class="h-1 bg-slate-200 rounded w-4/6"></div></div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <p class="font-bold text-sm text-slate-900">Moderno</p>
+                            <p class="text-[10px] text-slate-500 mt-1">Tecnologia e negócios</p>
+                        </div>
+                    </div>
+                    <!-- Modelo Criativo -->
+                    <div class="group">
+                        <div class="bg-white border border-slate-200 rounded-xl shadow-sm aspect-[3/4] overflow-hidden transition-all group-hover:shadow-lg group-hover:-translate-y-1">
+                            <div class="bg-indigo-600 p-2.5 flex items-center gap-2">
+                                <div class="w-5 h-5 bg-white/30 rounded-full shrink-0"></div>
+                                <div class="space-y-1 flex-1"><div class="h-1.5 bg-white/60 rounded w-3/4"></div><div class="h-1 bg-white/40 rounded w-1/2"></div></div>
+                            </div>
+                            <div class="p-2.5 grid grid-cols-5 gap-2">
+                                <div class="col-span-3 space-y-1"><div class="h-1.5 bg-indigo-400 rounded w-2/3"></div><div class="h-1 bg-slate-200 rounded"></div><div class="h-1 bg-slate-200 rounded w-5/6"></div><div class="h-1 bg-slate-200 rounded w-4/6"></div></div>
+                                <div class="col-span-2 space-y-1"><div class="flex flex-wrap gap-0.5"><span class="h-1.5 w-4 border border-indigo-400 rounded-full"></span><span class="h-1.5 w-5 border border-indigo-400 rounded-full"></span><span class="h-1.5 w-3 border border-indigo-400 rounded-full"></span></div><div class="h-1 bg-slate-200 rounded"></div></div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <p class="font-bold text-sm text-slate-900">Criativo</p>
+                            <p class="text-[10px] text-slate-500 mt-1">Design e marketing</p>
+                        </div>
+                    </div>
+                    <!-- Modelo Acadêmico -->
+                    <div class="group">
+                        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-3 aspect-[3/4] space-y-2 overflow-hidden transition-all group-hover:shadow-lg group-hover:-translate-y-1">
+                            <div class="border-b-2 border-slate-800 pb-1.5 space-y-1">
+                                <div class="h-2 bg-slate-800 rounded w-2/3 mx-auto"></div>
+                                <div class="h-1 bg-slate-300 rounded w-1/2 mx-auto"></div>
+                            </div>
+                            <div class="flex items-center gap-1"><span class="text-[8px] font-bold text-slate-700">1.</span><div class="h-1.5 bg-slate-300 rounded w-1/2"></div></div>
+                            <div class="space-y-1"><div class="h-1 bg-slate-200 rounded"></div><div class="h-1 bg-slate-200 rounded w-5/6"></div></div>
+                            <div class="flex items-center gap-1"><span class="text-[8px] font-bold text-slate-700">2.</span><div class="h-1.5 bg-slate-300 rounded w-1/2"></div></div>
+                            <div class="space-y-1"><div class="h-1 bg-slate-200 rounded"></div><div class="h-1 bg-slate-200 rounded w-4/6"></div></div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <p class="font-bold text-sm text-slate-900">Acadêmico</p>
+                            <p class="text-[10px] text-slate-500 mt-1">Mestres e doutores</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-12">
+                    <a href="#preco" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3.5 rounded-xl font-bold transition-all shadow-md shadow-indigo-200 hover:-translate-y-0.5">Quero criar o meu agora</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Depoimentos (Prova Social) -->
+        <section class="py-20 bg-white border-b border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl mb-4">Quem usou, aprovou</h2>
+                    <p class="text-lg text-slate-600">Histórias reais de profissionais que se recolocaram rapidamente no mercado.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Depoimento 1 -->
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200/60 relative">
+                        <p class="text-slate-600 text-sm italic mb-4">"O modelo ATS-first me salvou. Estava há 6 meses enviando currículos cheios de gráficos e não passava da triagem inicial. Na mesma semana que usei o CurrículoPro, fui chamado para duas entrevistas."</p>
+                        <div class="flex items-center gap-3">
+                            <img src="img/avatar-lucas-web.jpg" alt="Foto de Lucas M." width="256" height="256" loading="lazy" class="w-10 h-10 rounded-full object-cover border border-slate-200">
+                            <div class="font-bold text-slate-900 text-sm">Lucas M. <span class="text-xs font-normal text-slate-500">— Analista de Sistemas</span></div>
+                        </div>
+                    </div>
+                    <!-- Depoimento 2 -->
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200/60 relative">
+                        <p class="text-slate-600 text-sm italic mb-4">"Como doutoranda, precisava de um formato que comportasse minhas publicações e projetos sem parecer poluído. O layout acadêmico é perfeito, muito limpo e elegante."</p>
+                        <div class="flex items-center gap-3">
+                            <img src="img/avatar-mariana-web.jpg" alt="Foto de Mariana R." width="256" height="256" loading="lazy" class="w-10 h-10 rounded-full object-cover border border-slate-200">
+                            <div class="font-bold text-slate-900 text-sm">Mariana R. <span class="text-xs font-normal text-slate-500">— Pesquisadora</span></div>
+                        </div>
+                    </div>
+                    <!-- Depoimento 3 -->
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200/60 relative">
+                        <p class="text-slate-600 text-sm italic mb-4">"Interface extremamente intuitiva pelo celular. Consegui montar meu currículo completo de assistente administrativa no ônibus voltando do trabalho anterior."</p>
+                        <div class="flex items-center gap-3">
+                            <img src="img/avatar-juliana-web.jpg" alt="Foto de Juliana S." width="256" height="256" loading="lazy" class="w-10 h-10 rounded-full object-cover border border-slate-200">
+                            <div class="font-bold text-slate-900 text-sm">Juliana S. <span class="text-xs font-normal text-slate-500">— Assistente Administrativa</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Preço -->
+        <section id="preco" class="py-20 bg-gradient-to-b from-slate-50 to-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl border border-indigo-100 overflow-hidden grid md:grid-cols-12">
+                    <div class="p-8 md:p-12 md:col-span-7 space-y-6">
+                        <h3 class="text-2xl font-bold text-slate-900">Acesso Vitalício Imediato</h3>
+                        <p class="text-slate-600 text-sm">Sem assinaturas recorrentes, cobranças surpresas ou pegadinhas. Pague apenas uma vez e edite sempre que precisar.</p>
+                        <ul class="space-y-3 text-sm text-slate-700">
+                            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Acesso completo aos 5 modelos</li>
+                            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Exportações ilimitadas em PDF e Word</li>
+                            <li class="flex items-center gap-2"><svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Salvamento automático seguro</li>
+                        </ul>
+                    </div>
+                    <div class="p-8 bg-slate-50 md:col-span-5 flex flex-col justify-center items-center text-center border-t md:border-t-0 md:border-l border-slate-200">
+                        <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Preço Único</div>
+                        <div class="flex items-baseline gap-1 mb-1">
+                            <span class="text-slate-500 text-lg font-medium">R$</span>
+                            <span class="text-5xl font-extrabold text-slate-900 tracking-tight">9,90</span>
+                        </div>
+                        <div class="text-xs text-emerald-600 font-medium mb-6">Pague com Pix e libere na hora!</div>
+                        <button id="btn-comprar" onclick="iniciarCompra()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-center font-bold py-3 px-4 rounded-xl transition-all shadow-md shadow-indigo-100">
+                            Comprar Agora
+                        </button>
+                        <span class="text-[10px] text-slate-400 mt-3 flex items-center gap-1"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg> Pagamento 100% Criptografado</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="py-20 bg-slate-50 border-t border-slate-200">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl mb-4">Perguntas Frequentes</h2>
+                    <p class="text-lg text-slate-600">Tudo o que você precisa saber sobre a plataforma.</p>
+                </div>
+                <div class="space-y-4">
+                    <details class="bg-white p-5 rounded-xl border border-slate-200/60 group" open>
+                        <summary class="font-bold text-slate-950 cursor-pointer list-none flex justify-between items-center">
+                            O sistema funciona no meu aparelho celular?
+                            <span class="transition group-open:rotate-180"><svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 mt-3">Sim! Toda a plataforma foi construída sob a metodologia Mobile-First. Você pode preencher todos os seus dados, escolher estilos e exportar os arquivos perfeitamente pelo smartphone.</p>
+                    </details>
+                    <details class="bg-white p-5 rounded-xl border border-slate-200/60 group">
+                        <summary class="font-bold text-slate-950 cursor-pointer list-none flex justify-between items-center">
+                            Os modelos de currículo são compatíveis com ATS?
+                            <span class="transition group-open:rotate-180"><svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 mt-3">Com certeza. O modelo "Essencial", recomendado por padrão, segue à risca as regras de escaneabilidade dos principais softwares de recrutamento de inteligência artificial do Brasil (como Gupy, Sólides, Kenoby).</p>
+                    </details>
+                    <details class="bg-white p-5 rounded-xl border border-slate-200/60 group">
+                        <summary class="font-bold text-slate-950 cursor-pointer list-none flex justify-between items-center">
+                            Meus dados confidenciais ficam guardados em algum servidor?
+                            <span class="transition group-open:rotate-180"><svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 mt-3">Não. Por motivos estritos de segurança e conformidade à LGPD, todas as informações digitadas ficam alocadas estritamente na memória local do seu navegador (localStorage). Seus dados não saem do seu dispositivo.</p>
+                    </details>
+                    <details class="bg-white p-5 rounded-xl border border-slate-200/60 group">
+                        <summary class="font-bold text-slate-950 cursor-pointer list-none flex justify-between items-center">
+                            Posso voltar e editar o currículo mais tarde?
+                            <span class="transition group-open:rotate-180"><svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 mt-3">Sim. Como salvamos o progresso automaticamente no cache do seu computador ou celular, basta abrir o site no mesmo dispositivo para continuar a edição de onde parou de forma imediata.</p>
+                    </details>
+                    <details class="bg-white p-5 rounded-xl border border-slate-200/60 group">
+                        <summary class="font-bold text-slate-950 cursor-pointer list-none flex justify-between items-center">
+                            O pagamento é recorrente (assinatura mensal)?
+                            <span class="transition group-open:rotate-180"><svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 mt-3">Não! O valor é um preço único e simbólico de R$ 9,90 sem cobranças posteriores ocultas. Comprou, o acesso vitalício à ferramenta está garantido.</p>
+                    </details>
+                    <details class="bg-white p-5 rounded-xl border border-slate-200/60 group">
+                        <summary class="font-bold text-slate-950 cursor-pointer list-none flex justify-between items-center">
+                            Depois de pagar, recebo o acesso na hora?
+                            <span class="transition group-open:rotate-180"><svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 mt-3">Após o pagamento, você é levado a uma página onde pode nos avisar em 1 clique via WhatsApp ou e-mail. Isso agiliza a liberação para poucos minutos em horário comercial (até 2 horas úteis em outros horários) — um cuidado extra que temos justamente por não guardarmos seus dados em cadastro algum.</p>
+                    </details>
+                    <details class="bg-white p-5 rounded-xl border border-slate-200/60 group">
+                        <summary class="font-bold text-slate-950 cursor-pointer list-none flex justify-between items-center">
+                            E se eu me arrepender da compra? Existe reembolso?
+                            <span class="transition group-open:rotate-180"><svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 mt-3">Sim. Conforme o Código de Defesa do Consumidor (art. 49), você tem 7 dias corridos após a compra para solicitar reembolso integral, sem precisar justificar. Basta enviar um e-mail para o nosso suporte com os dados da transação.</p>
+                    </details>
+                    <details class="bg-white p-5 rounded-xl border border-slate-200/60 group">
+                        <summary class="font-bold text-slate-950 cursor-pointer list-none flex justify-between items-center">
+                            Posso criar quantos currículos eu quiser?
+                            <span class="transition group-open:rotate-180"><svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 mt-3">Sim, sem limites. Você pode montar versões diferentes do seu currículo para cada vaga, alternar entre os 5 modelos e exportar em PDF e Word quantas vezes precisar — tudo incluído no pagamento único.</p>
+                    </details>
+                    <details class="bg-white p-5 rounded-xl border border-slate-200/60 group">
+                        <summary class="font-bold text-slate-950 cursor-pointer list-none flex justify-between items-center">
+                            Posso acessar meu rascunho de outro celular ou computador?
+                            <span class="transition group-open:rotate-180"><svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span>
+                        </summary>
+                        <p class="text-sm text-slate-600 mt-3">Como seus dados ficam salvos apenas no dispositivo em que você digitou (por privacidade, nada vai para servidores), o rascunho não é sincronizado entre aparelhos. Nossa recomendação: conclua e exporte o currículo no mesmo dispositivo. Os arquivos PDF e Word baixados, claro, podem ser usados onde você quiser.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 text-xs border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-12 gap-8 items-center">
+            <div class="md:col-span-4 space-y-3">
+                <span class="text-lg font-bold text-white tracking-tight">Currículo<span class="text-indigo-400">Pro</span></span>
+                <p class="text-slate-500">Acelere sua recolocação com um currículo de alto impacto comercial.</p>
+            </div>
+            <div class="md:col-span-8 flex flex-wrap gap-x-8 gap-y-4 md:justify-end text-sm">
+                <a href="institucional.html#quem-somos" class="hover:text-white transition-colors">Quem Somos</a>
+                <a href="institucional.html#privacidade" class="hover:text-white transition-colors">Política de Privacidade</a>
+                <a href="institucional.html#termos" class="hover:text-white transition-colors">Termos de Uso</a>
+                <a href="institucional.html#contato" class="hover:text-white transition-colors">Contato</a>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-800 mt-8 pt-8 text-center text-slate-500">
+            © 2026 CurrículoPro — Medina'S Produções. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <script>
+        async function iniciarCompra() {
+            const btn = document.getElementById('btn-comprar');
+            const textoOriginal = btn.textContent;
+            btn.textContent = 'Gerando pagamento...';
+            btn.disabled = true;
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
+
+            try {
+                const resp = await fetch('/.netlify/functions/create-payment', { method: 'POST' });
+                const data = await resp.json();
+
+                if (!resp.ok || !data.url) {
+                    throw new Error(data.error || 'Não foi possível gerar o link de pagamento');
+                }
+
+                window.location.href = data.url;
+            } catch (err) {
+                console.error('Erro ao iniciar compra:', err);
+                btn.textContent = 'Erro — tente novamente';
+                btn.disabled = false;
+                btn.classList.remove('opacity-70', 'cursor-not-allowed');
+                setTimeout(() => { btn.textContent = textoOriginal; }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>

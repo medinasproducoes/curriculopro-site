@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Criador | CurrículoPro</title>
+    <link rel="icon" type="image/png" href="img/favicon-web.png">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .step-panel { display: none; }
+        .step-panel.active { display: block; }
+        .font-lato { font-family: 'Lato', sans-serif; }
+        .font-georgia { font-family: Georgia, 'Times New Roman', serif; }
+        .cv-block { break-inside: avoid; page-break-inside: avoid; }
+        /* Destaque do painel de exportação ao concluir o preenchimento */
+        @keyframes pulso-suave {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.65); }
+            50% { box-shadow: 0 0 0 14px rgba(99, 102, 241, 0); }
+        }
+        .pulse-destaque { animation: pulso-suave 1.05s ease-out 3; }
+        /* ===== MOTOR DE IMPRESSÃO: gera PDF com TEXTO REAL (compatível com ATS) ===== */
+        #print-root { display: none; }
+        @media print {
+            body > *:not(#print-root) { display: none !important; }
+            #print-root { display: block !important; }
+            #print-root * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            @page { size: A4; margin: 12mm; }
+            html, body { background: #ffffff !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-900 min-h-screen flex flex-col antialiased">
+
+    <!-- Header Ferramenta -->
+    <header class="bg-white border-b border-slate-200 h-14 flex items-center justify-between px-4 sm:px-6 z-20 shrink-0">
+        <div class="flex items-center gap-3">
+            <a href="index.html" class="font-bold text-slate-900">Currículo<span class="text-indigo-600">Pro</span></a>
+            <span class="hidden sm:inline-block px-2.5 py-0.5 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full border border-emerald-200">Ambiente Local Seguro</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="carregarExemplo()" class="text-xs font-medium text-slate-600 hover:text-indigo-600 px-3 py-1.5 rounded-md hover:bg-slate-50 border border-slate-200 bg-white transition-all">Preencher com Exemplo</button>
+            <button onclick="limparSessao()" class="text-xs font-medium text-rose-600 hover:bg-rose-50 px-2.5 py-1.5 rounded-md transition-all">Limpar</button>
+        </div>
+    </header>
+
+    <!-- Corpo Principal -->
+    <div class="flex-1 flex flex-col md:flex-row md:overflow-hidden">
+
+        <!-- COLUNA ESQUERDA: Formulário em passos -->
+        <main class="w-full md:w-1/2 bg-white flex flex-col md:overflow-y-auto border-r border-slate-200">
+            <div class="sticky top-0 bg-white z-10 border-b border-slate-100 p-4">
+                <div class="flex justify-between text-xs text-slate-400 font-semibold mb-2">
+                    <span id="label-passo-atual">Passo 1 de 7</span>
+                    <span id="percentual-progresso">14% Concluído</span>
+                </div>
+                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                    <div id="barra-progresso" class="bg-indigo-600 h-full w-[14%] transition-all duration-300"></div>
+                </div>
+            </div>
+
+            <form id="cv-form" class="p-6 space-y-6 pb-28 md:pb-24" oninput="atualizarPreview()">
+
+                <!-- PASSO 1: DADOS PESSOAIS -->
+                <section id="step-1" class="step-panel active space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2">1. Dados Pessoais</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="col-span-2 sm:col-span-1">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Nome</label>
+                            <input type="text" id="inp-nome" placeholder="Ex: João" class="w-full rounded-lg border border-slate-200 p-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                        </div>
+                        <div class="col-span-2 sm:col-span-1">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Sobrenome</label>
+                            <input type="text" id="inp-sobrenome" placeholder="Ex: Silva" class="w-full rounded-lg border border-slate-200 p-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="col-span-2 sm:col-span-1">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">E-mail</label>
+                            <input type="email" id="inp-email" placeholder="joao@email.com" class="w-full rounded-lg border border-slate-200 p-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                        </div>
+                        <div class="col-span-2 sm:col-span-1">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Telefone</label>
+                            <input type="text" id="inp-telefone" placeholder="(11) 99999-9999" class="w-full rounded-lg border border-slate-200 p-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Cidade/Estado</label>
+                        <input type="text" id="inp-localizacao" placeholder="Ex: São Paulo - SP" class="w-full rounded-lg border border-slate-200 p-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Foto de Perfil (Opcional)</label>
+                        <div class="flex items-center gap-3">
+                            <img id="foto-preview" alt="Prévia da foto" class="w-14 h-14 rounded-full object-cover border border-slate-200 hidden">
+                            <input type="file" id="inp-foto" accept="image/*" onchange="carregarFoto(this)" class="text-xs text-slate-500 file:mr-2 file:px-3 file:py-1.5 file:rounded-md file:border-0 file:bg-indigo-50 file:text-indigo-700 file:text-xs file:font-semibold hover:file:bg-indigo-100">
+                            <button type="button" id="btn-remover-foto" onclick="removerFoto()" class="hidden text-xs font-semibold text-rose-600 hover:underline">Remover</button>
+                        </div>
+                        <span class="text-[11px] text-slate-400 block mt-1">Exibida nos modelos Executivo, Moderno e Criativo. Os modelos Essencial (ATS) e Acadêmico não usam foto — prática recomendada para triagem automática.</span>
+                    </div>
+                </section>
+
+                <!-- PASSO 2: OBJETIVO PROFISSIONAL -->
+                <section id="step-2" class="step-panel space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2">2. Cargo Desejado & Objetivo</h2>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Cargo Alvo</label>
+                        <input type="text" id="inp-cargo" placeholder="Ex: Desenvolvedor Front-End Sênior" class="w-full rounded-lg border border-slate-200 p-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Resumo / Objetivo Profissional</label>
+                        <textarea id="inp-resumo" rows="4" placeholder="Breve resumo de suas principais conquistas e intenções na empresa..." class="w-full rounded-lg border border-slate-200 p-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"></textarea>
+                        <span class="text-[11px] text-slate-400 block mt-1">Dica: Se não possuir experiência formal, descreva seus principais projetos de estudo, trabalhos voluntários e ambições.</span>
+                    </div>
+                </section>
+
+                <!-- PASSO 3: EXPERIÊNCIAS -->
+                <section id="step-3" class="step-panel space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                        <h2 class="text-lg font-bold text-slate-900">3. Histórico Profissional</h2>
+                        <button type="button" onclick="adicionarExperiencia()" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold px-2 py-1 rounded">+ Adicionar</button>
+                    </div>
+                    <div id="wrapper-experiencias" class="space-y-4"></div>
+                </section>
+
+                <!-- PASSO 4: FORMAÇÃO ACADÊMICA -->
+                <section id="step-4" class="step-panel space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                        <h2 class="text-lg font-bold text-slate-900">4. Educação e Formação</h2>
+                        <button type="button" onclick="adicionarFormacao()" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold px-2 py-1 rounded">+ Adicionar</button>
+                    </div>
+                    <div id="wrapper-formacoes" class="space-y-4"></div>
+                </section>
+
+                <!-- PASSO 5: HABILIDADES -->
+                <section id="step-5" class="step-panel space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2">5. Habilidades & Competências</h2>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Suas Habilidades e Competências (separadas por vírgula)</label>
+                        <input type="text" id="inp-habilidades" placeholder="Ex: JavaScript, Gestão de Tempo, UI/UX, Solução de Problemas" class="w-full rounded-lg border border-slate-200 p-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                    </div>
+                </section>
+
+                <!-- PASSO 6: IDIOMAS -->
+                <section id="step-6" class="step-panel space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                        <h2 class="text-lg font-bold text-slate-900">6. Idiomas</h2>
+                        <button type="button" onclick="adicionarIdioma()" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold px-2 py-1 rounded">+ Adicionar</button>
+                    </div>
+                    <div id="wrapper-idiomas" class="space-y-3"></div>
+                </section>
+
+                <!-- PASSO 7: EXTRAS -->
+                <section id="step-7" class="step-panel space-y-4">
+                    <h2 class="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2">7. Informações Adicionais / Acadêmico</h2>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Links Importantes (Separados por vírgula)</label>
+                        <input type="text" id="inp-links" placeholder="Ex: linkedin.com/in/usuario, github.com/usuario, lattes.cnpq.br/123" class="w-full rounded-lg border border-slate-200 p-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Certificações & Cursos Livres</label>
+                        <textarea id="inp-certificacoes" rows="2" placeholder="Ex: Certificação AWS Cloud Practitioner (2025), Scrum Master..." class="w-full rounded-lg border border-slate-200 p-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Publicações Científicas, Prêmios ou Voluntariado</label>
+                        <textarea id="inp-publicacoes" rows="3" placeholder="Para pesquisadores: artigos, capítulos de livros e prêmios relevantes. Uma linha por item..." class="w-full rounded-lg border border-slate-200 p-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"></textarea>
+                    </div>
+                </section>
+            </form>
+
+            <!-- Controles de Passos: fixo no celular, aderente no desktop -->
+            <div class="fixed md:sticky bottom-0 left-0 w-full bg-slate-50/95 backdrop-blur border-t border-slate-200 p-4 flex justify-between items-center z-10 gap-3">
+                <button type="button" id="btn-voltar" onclick="mudarPasso(-1)" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-200 rounded-lg disabled:opacity-40 transition-all" disabled>Voltar</button>
+                <a href="#cv-preview-target" class="md:hidden text-xs font-semibold text-indigo-600">Ver prévia ↓</a>
+                <button type="button" id="btn-avancar" onclick="mudarPasso(1)" class="px-5 py-2 text-sm font-bold bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-all shadow-sm">Avançar</button>
+            </div>
+        </main>
+
+        <!-- COLUNA DIREITA: Preview em tempo real e personalização -->
+        <aside class="w-full md:w-1/2 bg-slate-800 flex flex-col p-4 md:p-6 md:overflow-y-auto">
+            <div id="painel-exportar" class="bg-slate-900 rounded-xl p-4 mb-6 text-white text-xs space-y-4 shadow-md">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div>
+                        <label class="block text-slate-400 font-medium mb-1">Modelo</label>
+                        <select id="sel-modelo" onchange="atualizarPreview()" class="w-full bg-slate-800 border border-slate-700 rounded p-1.5 text-white">
+                            <option value="ats">Essencial (ATS)</option>
+                            <option value="executivo">Executivo</option>
+                            <option value="moderno">Moderno</option>
+                            <option value="criativo">Criativo</option>
+                            <option value="academico">Acadêmico</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 font-medium mb-1">Tipografia</label>
+                        <select id="sel-fonte" onchange="alterarConfigEstilo()" class="w-full bg-slate-800 border border-slate-700 rounded p-1.5 text-white">
+                            <option value="font-sans">Inter (Limpa)</option>
+                            <option value="font-georgia">Georgia (Clássica)</option>
+                            <option value="font-lato">Lato (Moderna)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 font-medium mb-1">Cor de Destaque</label>
+                        <select id="sel-cor" onchange="alterarConfigEstilo()" class="w-full bg-slate-800 border border-slate-700 rounded p-1.5 text-white">
+                            <option value="grafite">Grafite</option>
+                            <option value="azul">Azul Corporativo</option>
+                            <option value="verde">Verde Esmeralda</option>
+                            <option value="indigo">Índigo Moderno</option>
+                            <option value="vinho">Vinho Executivo</option>
+                            <option value="petroleo">Azul Petróleo</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 font-medium mb-1">Espaçamento</label>
+                        <select id="sel-espaco" onchange="alterarConfigEstilo()" class="w-full bg-slate-800 border border-slate-700 rounded p-1.5 text-white">
+                            <option value="normal">Normal</option>
+                            <option value="compacto">Compacto</option>
+                            <option value="espacado">Espaçado</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="pt-2 border-t border-slate-800 space-y-2">
+                    <div class="flex gap-2">
+                        <button onclick="exportarPDF()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded transition-all">Baixar em PDF</button>
+                        <button onclick="exportarWord()" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 rounded transition-all">Baixar em Word (.doc)</button>
+                    </div>
+                    <p class="text-[11px] text-slate-500 leading-snug">PDF: na janela que abrir, escolha o destino <b class="text-slate-300">"Salvar como PDF"</b>. O arquivo gerado mantém o texto selecionável — requisito essencial para aprovação em sistemas ATS.</p>
+                </div>
+            </div>
+
+            <div class="flex-1 flex justify-center items-start">
+                <div id="cv-preview-target" class="w-full max-w-[210mm] min-h-[297mm] bg-white shadow-2xl text-left text-slate-900"></div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Raiz de impressão (preenchida somente no momento da exportação em PDF) -->
+    <div id="print-root"></div>
+
+    <script>
+    // =============== ESTADO GLOBAL E CONSTANTES ===============
+    let passoAtual = 1;
+    const totalPassos = 7;
+    let fotoBase64 = '';
+    let uid = 0;
+
+    const TEMAS = {
+        grafite:  '#0f172a',
+        azul:     '#1e40af',
+        verde:    '#047857',
+        indigo:   '#4338ca',
+        vinho:    '#7f1d1d',
+        petroleo: '#0f766e'
+    };
+    const ESPACO_PREVIEW = {
+        normal:   'leading-normal p-10 space-y-4',
+        compacto: 'leading-tight p-8 space-y-2.5',
+        espacado: 'leading-relaxed p-12 space-y-5'
+    };
+    const ESPACO_PRINT = {
+        normal:   'leading-normal space-y-4',
+        compacto: 'leading-tight space-y-2.5',
+        espacado: 'leading-relaxed space-y-5'
+    };
+
+    // =============== SEGURANÇA: escape de HTML digitado pelo usuário ===============
+    function esc(v) {
+        return String(v ?? '')
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // =============== FOTO DE PERFIL ===============
+    function carregarFoto(input) {
+        const file = input.files && input.files[0];
+        if (!file) return;
+        if (file.size > 2 * 1024 * 1024) {
+            alert('Por favor, escolha uma imagem de até 2 MB.');
+            input.value = '';
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = e => { fotoBase64 = e.target.result; exibirFotoPreview(); atualizarPreview(); };
+        reader.readAsDataURL(file);
+    }
+    function exibirFotoPreview() {
+        const img = document.getElementById('foto-preview');
+        img.src = fotoBase64;
+        img.classList.remove('hidden');
+        document.getElementById('btn-remover-foto').classList.remove('hidden');
+    }
+    function removerFoto() {
+        fotoBase64 = '';
+        document.getElementById('inp-foto').value = '';
+        document.getElementById('foto-preview').classList.add('hidden');
+        document.getElementById('btn-remover-foto').classList.add('hidden');
+        atualizarPreview();
+    }
+
+    // =============== NAVEGAÇÃO DO WIZARD ===============
+    function mudarPasso(direcao) {
+        // Na última etapa, o botão vira "Concluir" e leva o usuário ao painel de download
+        if (direcao === 1 && passoAtual === totalPassos) {
+            finalizarPreenchimento();
+            return;
+        }
+        passoAtual += direcao;
+        if (passoAtual < 1) passoAtual = 1;
+        if (passoAtual > totalPassos) passoAtual = totalPassos;
+
+        document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById(`step-${passoAtual}`).classList.add('active');
+
+        document.getElementById('label-passo-atual').innerText = `Passo ${passoAtual} de ${totalPassos}`;
+        const pct = Math.round((passoAtual / totalPassos) * 100);
+        document.getElementById('percentual-progresso').innerText = `${pct}% Concluído`;
+        document.getElementById('barra-progresso').style.width = `${pct}%`;
+
+        document.getElementById('btn-voltar').disabled = (passoAtual === 1);
+        document.getElementById('btn-avancar').innerText = (passoAtual === totalPassos) ? 'Concluir ✓' : 'Avançar';
+        document.querySelector('main').scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Leva o usuário ao painel de exportação e destaca os botões de download
+    function finalizarPreenchimento() {
+        atualizarPreview();
+        const painel = document.getElementById('painel-exportar');
+        painel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        painel.classList.add('pulse-destaque');
+        setTimeout(() => painel.classList.remove('pulse-destaque'), 3200);
+    }
+
+    // =============== CAMPOS DINÂMICOS ===============
+    function adicionarExperiencia() {
+        const id = 'exp-' + (++uid);
+        const html = `
+            <div id="${id}" class="p-3 bg-slate-50 rounded-lg border border-slate-200 relative space-y-2">
+                <button type="button" onclick="document.getElementById('${id}').remove(); atualizarPreview();" class="absolute top-2 right-2 text-slate-400 hover:text-rose-600 text-xs font-bold">X</button>
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="text" placeholder="Empresa" class="exp-empresa p-1.5 border border-slate-200 text-xs rounded bg-white">
+                    <input type="text" placeholder="Cargo" class="exp-cargo p-1.5 border border-slate-200 text-xs rounded bg-white">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="text" placeholder="Período (Ex: 2022 - Atual)" class="exp-periodo p-1.5 border border-slate-200 text-xs rounded bg-white">
+                    <input type="text" placeholder="Cidade/Estado" class="exp-local p-1.5 border border-slate-200 text-xs rounded bg-white">
+                </div>
+                <textarea placeholder="Descrição das atividades e realizações principais..." rows="2" class="exp-desc w-full p-1.5 border border-slate-200 text-xs rounded bg-white"></textarea>
+            </div>`;
+        document.getElementById('wrapper-experiencias').insertAdjacentHTML('beforeend', html);
+    }
+
+    function adicionarFormacao() {
+        const id = 'form-' + (++uid);
+        const html = `
+            <div id="${id}" class="p-3 bg-slate-50 rounded-lg border border-slate-200 relative space-y-2">
+                <button type="button" onclick="document.getElementById('${id}').remove(); atualizarPreview();" class="absolute top-2 right-2 text-slate-400 hover:text-rose-600 text-xs font-bold">X</button>
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="text" placeholder="Instituição de Ensino" class="form-inst p-1.5 border border-slate-200 text-xs rounded bg-white">
+                    <input type="text" placeholder="Curso / Grau" class="form-curso p-1.5 border border-slate-200 text-xs rounded bg-white">
+                </div>
+                <input type="text" placeholder="Ano de Conclusão (Ex: 2024)" class="form-ano p-1.5 border border-slate-200 text-xs rounded bg-white">
+            </div>`;
+        document.getElementById('wrapper-formacoes').insertAdjacentHTML('beforeend', html);
+    }
+
+    function adicionarIdioma() {
+        const id = 'idioma-' + (++uid);
+        const html = `
+            <div id="${id}" class="flex gap-2 items-center bg-slate-50 p-2 rounded border border-slate-200">
+                <input type="text" placeholder="Idioma (Ex: Inglês)" class="idioma-nome flex-1 p-1.5 border border-slate-200 text-xs rounded bg-white">
+                <select class="idioma-nivel p-1.5 border border-slate-200 text-xs rounded bg-white">
+                    <option value="Básico">Básico</option>
+                    <option value="Intermediário">Intermediário</option>
+                    <option value="Avançado">Avançado</option>
+                    <option value="Fluente/Nativo">Fluente / Nativo</option>
+                </select>
+                <button type="button" onclick="document.getElementById('${id}').remove(); atualizarPreview();" class="text-rose-600 font-bold text-xs px-1">X</button>
+            </div>`;
+        document.getElementById('wrapper-idiomas').insertAdjacentHTML('beforeend', html);
+    }
+
+    // =============== COLETA E RESTAURAÇÃO DE DADOS ===============
+    function coletarDadosDoFormulario() {
+        return {
+            nome: document.getElementById('inp-nome').value || '',
+            sobrenome: document.getElementById('inp-sobrenome').value || '',
+            email: document.getElementById('inp-email').value || '',
+            telefone: document.getElementById('inp-telefone').value || '',
+            localizacao: document.getElementById('inp-localizacao').value || '',
+            cargo: document.getElementById('inp-cargo').value || '',
+            resumo: document.getElementById('inp-resumo').value || '',
+            habilidades: document.getElementById('inp-habilidades').value || '',
+            links: document.getElementById('inp-links').value || '',
+            certificacoes: document.getElementById('inp-certificacoes').value || '',
+            publicacoes: document.getElementById('inp-publicacoes').value || '',
+            foto: fotoBase64,
+            config: {
+                modelo: document.getElementById('sel-modelo').value,
+                fonte: document.getElementById('sel-fonte').value,
+                cor: document.getElementById('sel-cor').value,
+                espaco: document.getElementById('sel-espaco').value
+            },
+            experiencias: Array.from(document.querySelectorAll('#wrapper-experiencias > div')).map(el => ({
+                empresa: el.querySelector('.exp-empresa').value || '',
+                cargo: el.querySelector('.exp-cargo').value || '',
+                periodo: el.querySelector('.exp-periodo').value || '',
+                local: el.querySelector('.exp-local').value || '',
+                desc: el.querySelector('.exp-desc').value || ''
+            })),
+            formacoes: Array.from(document.querySelectorAll('#wrapper-formacoes > div')).map(el => ({
+                inst: el.querySelector('.form-inst').value || '',
+                curso: el.querySelector('.form-curso').value || '',
+                ano: el.querySelector('.form-ano').value || ''
+            })),
+            idiomas: Array.from(document.querySelectorAll('#wrapper-idiomas > div')).map(el => ({
+                nome: el.querySelector('.idioma-nome').value || '',
+                nivel: el.querySelector('.idioma-nivel').value || ''
+            }))
+        };
+    }
+
+    // Restaura o rascunho salvo (correção crítica: esta função não existia na versão anterior)
+    function restaurarDadosDoEstado(d) {
+        const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
+        set('inp-nome', d.nome); set('inp-sobrenome', d.sobrenome);
+        set('inp-email', d.email); set('inp-telefone', d.telefone);
+        set('inp-localizacao', d.localizacao); set('inp-cargo', d.cargo);
+        set('inp-resumo', d.resumo); set('inp-habilidades', d.habilidades);
+        set('inp-links', d.links); set('inp-certificacoes', d.certificacoes);
+        set('inp-publicacoes', d.publicacoes);
+
+        if (d.config) {
+            const setSel = (id, v) => { const el = document.getElementById(id); if (el && v) el.value = v; };
+            setSel('sel-modelo', d.config.modelo); setSel('sel-fonte', d.config.fonte);
+            setSel('sel-cor', d.config.cor); setSel('sel-espaco', d.config.espaco);
+        }
+
+        document.getElementById('wrapper-experiencias').innerHTML = '';
+        ((d.experiencias && d.experiencias.length) ? d.experiencias : [{}]).forEach(e => {
+            adicionarExperiencia();
+            const el = document.querySelector('#wrapper-experiencias > div:last-child');
+            el.querySelector('.exp-empresa').value = e.empresa || '';
+            el.querySelector('.exp-cargo').value = e.cargo || '';
+            el.querySelector('.exp-periodo').value = e.periodo || '';
+            el.querySelector('.exp-local').value = e.local || '';
+            el.querySelector('.exp-desc').value = e.desc || '';
+        });
+
+        document.getElementById('wrapper-formacoes').innerHTML = '';
+        ((d.formacoes && d.formacoes.length) ? d.formacoes : [{}]).forEach(f => {
+            adicionarFormacao();
+            const el = document.querySelector('#wrapper-formacoes > div:last-child');
+            el.querySelector('.form-inst').value = f.inst || '';
+            el.querySelector('.form-curso').value = f.curso || '';
+            el.querySelector('.form-ano').value = f.ano || '';
+        });
+
+        document.getElementById('wrapper-idiomas').innerHTML = '';
+        (d.idiomas || []).forEach(i => {
+            adicionarIdioma();
+            const el = document.querySelector('#wrapper-idiomas > div:last-child');
+            el.querySelector('.idioma-nome').value = i.nome || '';
+            el.querySelector('.idioma-nivel').value = i.nivel || 'Básico';
+        });
+
+        if (d.foto) { fotoBase64 = d.foto; exibirFotoPreview(); }
+    }
+
+    // =============== PREVIEW E ESTILO ===============
+    function atualizarPreview() {
+        const data = coletarDadosDoFormulario();
+        try {
+            localStorage.setItem('curriculopro_rascunho', JSON.stringify(data));
+        } catch (e) { /* Cota do navegador excedida (foto muito grande) — o preview continua funcionando */ }
+        const layout = document.getElementById('sel-modelo').value;
+        document.getElementById('cv-preview-target').innerHTML = renderizarTemplateHtml(layout, data);
+        alterarConfigEstilo();
+    }
+
+    function alterarConfigEstilo() {
+        const target = document.getElementById('cv-preview-target');
+        const fonte = document.getElementById('sel-fonte').value;
+        const espKey = document.getElementById('sel-espaco').value;
+        const layout = document.getElementById('sel-modelo').value;
+        const fullBleed = (layout === 'moderno' || layout === 'criativo');
+        const esp = fullBleed ? ESPACO_PREVIEW[espKey].replace(/p-\d+/, 'p-0') : ESPACO_PREVIEW[espKey];
+        target.className = `w-full max-w-[210mm] min-h-[297mm] bg-white shadow-2xl text-left text-slate-900 overflow-hidden ${fonte} ${esp}`;
+        target.style.setProperty('--cv-accent', TEMAS[document.getElementById('sel-cor').value]);
+    }
+
+    // =============== FÁBRICA DE TEMPLATES (5 layouts realmente distintos) ===============
+    function blocosBase(d) {
+        const contatoItens = [d.email, d.telefone, d.localizacao].filter(Boolean).map(esc);
+        const linksItens = d.links ? d.links.split(',').map(l => esc(l.trim())).filter(Boolean) : [];
+        const skills = d.habilidades ? d.habilidades.split(',').map(s => esc(s.trim())).filter(Boolean) : [];
+        const exps = d.experiencias.filter(e => e.empresa || e.cargo);
+        const forms = d.formacoes.filter(f => f.inst || f.curso);
+        const idiomas = d.idiomas.filter(i => i.nome);
+        return { contatoItens, linksItens, skills, exps, forms, idiomas };
+    }
+
+    function listaExpHtml(exps) {
+        return exps.map(e => `
+            <div class="cv-block">
+                <div class="flex justify-between items-baseline gap-2">
+                    <span class="text-xs font-bold text-slate-800">${esc(e.cargo)}${e.cargo && e.empresa ? ' — ' : ''}<span class="font-medium">${esc(e.empresa)}</span></span>
+                    <span class="text-[11px] text-slate-500 whitespace-nowrap">${esc(e.periodo)}</span>
+                </div>
+                ${e.local ? `<p class="text-[10px] text-slate-400">${esc(e.local)}</p>` : ''}
+                ${e.desc ? `<p class="text-xs text-slate-600 mt-1 whitespace-pre-line">${esc(e.desc)}</p>` : ''}
+            </div>`).join('');
+    }
+
+    function listaFormHtml(forms) {
+        return forms.map(f => `
+            <div class="cv-block flex justify-between items-baseline gap-2">
+                <span class="text-xs font-bold text-slate-800">${esc(f.curso)}${f.inst ? ` <span class="font-normal text-slate-600">(${esc(f.inst)})</span>` : ''}</span>
+                <span class="text-[11px] text-slate-500 whitespace-nowrap">${esc(f.ano)}</span>
+            </div>`).join('');
+    }
+
+    function extrasHtml(d, titulo = 'Informações Complementares') {
+        if (!d.certificacoes && !d.publicacoes) return '';
+        return `
+        <div class="cv-block">
+            <h3 class="text-[13px] font-bold uppercase tracking-widest border-b pb-1 mb-2" style="color:var(--cv-accent);border-color:var(--cv-accent)">${titulo}</h3>
+            ${d.certificacoes ? `<div class="mb-2"><p class="text-xs font-semibold text-slate-800">Certificações e Cursos</p><p class="text-xs text-slate-600 whitespace-pre-line">${esc(d.certificacoes)}</p></div>` : ''}
+            ${d.publicacoes ? `<div><p class="text-xs font-semibold text-slate-800">Publicações, Prêmios e Voluntariado</p><p class="text-xs text-slate-600 whitespace-pre-line">${esc(d.publicacoes)}</p></div>` : ''}
+        </div>`;
+    }
+
+    // TEMPLATE 1: ESSENCIAL (ATS-FIRST) — coluna única, sem foto, máxima escaneabilidade
+    function tplATS(d, b) {
+        const secao = t => `<h3 class="text-[13px] font-bold uppercase tracking-widest border-b pb-1 mb-2" style="color:var(--cv-accent);border-color:var(--cv-accent)">${t}</h3>`;
+        return `
+        <div class="space-y-4">
+            <div class="cv-block">
+                <h1 class="text-3xl font-bold tracking-tight text-slate-900">${esc(d.nome)} ${esc(d.sobrenome)}</h1>
+                ${d.cargo ? `<p class="text-base font-semibold mt-0.5" style="color:var(--cv-accent)">${esc(d.cargo)}</p>` : ''}
+                <p class="text-xs text-slate-500 mt-1.5">${[...b.contatoItens, ...b.linksItens].join(' &nbsp;•&nbsp; ')}</p>
+            </div>
+            ${d.resumo ? `<div class="cv-block">${secao('Resumo Profissional')}<p class="text-xs text-slate-700 whitespace-pre-line">${esc(d.resumo)}</p></div>` : ''}
+            ${b.exps.length ? `<div class="cv-block">${secao('Experiência Profissional')}<div class="space-y-3">${listaExpHtml(b.exps)}</div></div>` : ''}
+            ${b.forms.length ? `<div class="cv-block">${secao('Formação Acadêmica')}<div class="space-y-2">${listaFormHtml(b.forms)}</div></div>` : ''}
+            ${b.skills.length ? `<div class="cv-block">${secao('Competências')}<p class="text-xs text-slate-700">${b.skills.join(', ')}</p></div>` : ''}
+            ${b.idiomas.length ? `<div class="cv-block">${secao('Idiomas')}<p class="text-xs text-slate-700">${b.idiomas.map(i => `${esc(i.nome)} (${esc(i.nivel)})`).join(', ')}</p></div>` : ''}
+            ${extrasHtml(d)}
+        </div>`;
+    }
+
+    // TEMPLATE 2: EXECUTIVO — centralizado, sóbrio, filetes duplos, foto opcional
+    function tplExecutivo(d, b) {
+        const secao = t => `<h3 class="text-[12px] font-bold uppercase tracking-[0.25em] text-center mb-3" style="color:var(--cv-accent)">${t}</h3>`;
+        return `
+        <div class="space-y-5">
+            <div class="cv-block text-center border-y-2 py-5" style="border-color:var(--cv-accent)">
+                ${d.foto ? `<img src="${d.foto}" class="w-20 h-20 rounded-full object-cover mx-auto mb-3 border-2" style="border-color:var(--cv-accent)">` : ''}
+                <h1 class="text-3xl font-bold tracking-[0.08em] uppercase text-slate-900">${esc(d.nome)} ${esc(d.sobrenome)}</h1>
+                ${d.cargo ? `<p class="text-sm tracking-[0.2em] uppercase text-slate-500 mt-1.5">${esc(d.cargo)}</p>` : ''}
+                <p class="text-[11px] text-slate-500 mt-2">${[...b.contatoItens, ...b.linksItens].join(' &nbsp;|&nbsp; ')}</p>
+            </div>
+            ${d.resumo ? `<div class="cv-block">${secao('Perfil Executivo')}<p class="text-xs text-slate-700 whitespace-pre-line text-center max-w-lg mx-auto">${esc(d.resumo)}</p></div>` : ''}
+            ${b.exps.length ? `<div class="cv-block">${secao('Trajetória Profissional')}<div class="space-y-3">${listaExpHtml(b.exps)}</div></div>` : ''}
+            ${b.forms.length ? `<div class="cv-block">${secao('Formação')}<div class="space-y-2">${listaFormHtml(b.forms)}</div></div>` : ''}
+            ${b.skills.length ? `<div class="cv-block">${secao('Competências-Chave')}<p class="text-xs text-slate-700 text-center">${b.skills.join(' &nbsp;•&nbsp; ')}</p></div>` : ''}
+            ${b.idiomas.length ? `<div class="cv-block">${secao('Idiomas')}<p class="text-xs text-slate-700 text-center">${b.idiomas.map(i => `${esc(i.nome)} (${esc(i.nivel)})`).join(', ')}</p></div>` : ''}
+            ${extrasHtml(d)}
+        </div>`;
+    }
+
+    // TEMPLATE 3: MODERNO — barra lateral colorida com foto, skills em pílulas
+    function tplModerno(d, b) {
+        const secaoSide = t => `<h3 class="text-[11px] font-bold uppercase tracking-widest text-white/80 mb-1.5">${t}</h3>`;
+        const secaoMain = t => `<h3 class="text-[13px] font-bold uppercase tracking-widest mb-2" style="color:var(--cv-accent)">${t}</h3>`;
+        return `
+        <div class="grid grid-cols-12 min-h-[inherit]">
+            <div class="col-span-4 text-white p-5 space-y-5" style="background:var(--cv-accent)">
+                ${d.foto ? `<img src="${d.foto}" class="w-24 h-24 rounded-full object-cover border-2 border-white/60 mx-auto">` : ''}
+                <div class="text-center">
+                    <h1 class="text-xl font-bold leading-tight">${esc(d.nome)}<br>${esc(d.sobrenome)}</h1>
+                    ${d.cargo ? `<p class="text-[11px] text-white/80 mt-1">${esc(d.cargo)}</p>` : ''}
+                </div>
+                <div class="text-[10px] text-white/90 space-y-1 break-words">
+                    ${b.contatoItens.map(c => `<p>${c}</p>`).join('')}
+                    ${b.linksItens.map(l => `<p class="underline">${l}</p>`).join('')}
+                </div>
+                ${b.skills.length ? `<div>${secaoSide('Competências')}<div class="flex flex-wrap gap-1">${b.skills.map(s => `<span class="text-[9px] bg-white/15 border border-white/25 rounded-full px-2 py-0.5">${s}</span>`).join('')}</div></div>` : ''}
+                ${b.idiomas.length ? `<div>${secaoSide('Idiomas')}<div class="text-[10px] space-y-0.5">${b.idiomas.map(i => `<p>${esc(i.nome)} — ${esc(i.nivel)}</p>`).join('')}</div></div>` : ''}
+            </div>
+            <div class="col-span-8 p-6 space-y-4">
+                ${d.resumo ? `<div class="cv-block">${secaoMain('Perfil')}<p class="text-xs text-slate-700 whitespace-pre-line">${esc(d.resumo)}</p></div>` : ''}
+                ${b.exps.length ? `<div class="cv-block">${secaoMain('Experiência')}<div class="space-y-3">${listaExpHtml(b.exps)}</div></div>` : ''}
+                ${b.forms.length ? `<div class="cv-block">${secaoMain('Formação')}<div class="space-y-2">${listaFormHtml(b.forms)}</div></div>` : ''}
+                ${extrasHtml(d)}
+            </div>
+        </div>`;
+    }
+
+    // TEMPLATE 4: CRIATIVO — faixa de cabeçalho colorida, tags de destaque, duas colunas
+    function tplCriativo(d, b) {
+        const chip = s => `<span class="text-[9px] font-semibold border rounded-full px-2 py-0.5" style="color:var(--cv-accent);border-color:var(--cv-accent)">${s}</span>`;
+        const secao = t => `<h3 class="inline-block text-[11px] font-bold uppercase tracking-widest text-white rounded px-2 py-0.5 mb-2" style="background:var(--cv-accent)">${t}</h3>`;
+        return `
+        <div>
+            <div class="cv-block text-white p-6 flex items-center gap-5" style="background:var(--cv-accent)">
+                ${d.foto ? `<img src="${d.foto}" class="w-20 h-20 rounded-full object-cover border-2 border-white/70 shrink-0">` : ''}
+                <div>
+                    <h1 class="text-2xl font-extrabold leading-tight">${esc(d.nome)} ${esc(d.sobrenome)}</h1>
+                    ${d.cargo ? `<p class="text-xs text-white/85 font-medium mt-0.5">${esc(d.cargo)}</p>` : ''}
+                    <p class="text-[10px] text-white/80 mt-1.5">${[...b.contatoItens, ...b.linksItens].join(' &nbsp;•&nbsp; ')}</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-5 p-6">
+                <div class="col-span-7 space-y-4">
+                    ${d.resumo ? `<div class="cv-block">${secao('Sobre Mim')}<p class="text-xs text-slate-700 whitespace-pre-line">${esc(d.resumo)}</p></div>` : ''}
+                    ${b.exps.length ? `<div class="cv-block">${secao('Experiência')}<div class="space-y-3">${listaExpHtml(b.exps)}</div></div>` : ''}
+                </div>
+                <div class="col-span-5 space-y-4">
+                    ${b.skills.length ? `<div class="cv-block">${secao('Habilidades')}<div class="flex flex-wrap gap-1">${b.skills.map(chip).join('')}</div></div>` : ''}
+                    ${b.forms.length ? `<div class="cv-block">${secao('Formação')}<div class="space-y-2">${listaFormHtml(b.forms)}</div></div>` : ''}
+                    ${b.idiomas.length ? `<div class="cv-block">${secao('Idiomas')}<p class="text-xs text-slate-700">${b.idiomas.map(i => `${esc(i.nome)} (${esc(i.nivel)})`).join(', ')}</p></div>` : ''}
+                    ${extrasHtml(d)}
+                </div>
+            </div>
+        </div>`;
+    }
+
+    // TEMPLATE 5: ACADÊMICO — formato CV formal: seções numeradas, formação antes da experiência, produção científica em destaque
+    function tplAcademico(d, b) {
+        let n = 0;
+        const secao = t => { n++; return `<h3 class="text-[13px] font-bold text-slate-900 border-b border-slate-300 pb-1 mb-2">${n}. ${t}</h3>`; };
+        return `
+        <div class="space-y-4">
+            <div class="cv-block text-center pb-3 border-b-2" style="border-color:var(--cv-accent)">
+                <h1 class="text-2xl font-bold uppercase tracking-wide text-slate-900">${esc(d.nome)} ${esc(d.sobrenome)}</h1>
+                ${d.cargo ? `<p class="text-sm text-slate-600 mt-0.5 italic">${esc(d.cargo)}</p>` : ''}
+                <p class="text-[11px] text-slate-500 mt-1.5">${[...b.contatoItens, ...b.linksItens].join(' &nbsp;•&nbsp; ')}</p>
+            </div>
+            ${d.resumo ? `<div class="cv-block">${secao('Apresentação')}<p class="text-xs text-slate-700 whitespace-pre-line text-justify">${esc(d.resumo)}</p></div>` : ''}
+            ${b.forms.length ? `<div class="cv-block">${secao('Formação Acadêmica')}<div class="space-y-2">${listaFormHtml(b.forms)}</div></div>` : ''}
+            ${b.exps.length ? `<div class="cv-block">${secao('Atuação Profissional e Pesquisa')}<div class="space-y-3">${listaExpHtml(b.exps)}</div></div>` : ''}
+            ${d.publicacoes ? `<div class="cv-block">${secao('Produção Científica, Prêmios e Atividades')}<p class="text-xs text-slate-700 whitespace-pre-line">${esc(d.publicacoes)}</p></div>` : ''}
+            ${d.certificacoes ? `<div class="cv-block">${secao('Formação Complementar')}<p class="text-xs text-slate-700 whitespace-pre-line">${esc(d.certificacoes)}</p></div>` : ''}
+            ${b.skills.length ? `<div class="cv-block">${secao('Competências')}<p class="text-xs text-slate-700">${b.skills.join(', ')}</p></div>` : ''}
+            ${b.idiomas.length ? `<div class="cv-block">${secao('Idiomas')}<p class="text-xs text-slate-700">${b.idiomas.map(i => `${esc(i.nome)} (${esc(i.nivel)})`).join(', ')}</p></div>` : ''}
+        </div>`;
+    }
+
+    // Roteador de templates
+    function renderizarTemplateHtml(tipo, d) {
+        const b = blocosBase(d);
+        switch (tipo) {
+            case 'executivo': return tplExecutivo(d, b);
+            case 'moderno':   return tplModerno(d, b);
+            case 'criativo':  return tplCriativo(d, b);
+            case 'academico': return tplAcademico(d, b);
+            default:          return tplATS(d, b);
+        }
+    }
+
+    // =============== EXPORTAÇÃO EM PDF (via impressão nativa = texto real, aprovado em ATS) ===============
+    function exportarPDF() {
+        const data = coletarDadosDoFormulario();
+        const layout = document.getElementById('sel-modelo').value;
+        const fonte = document.getElementById('sel-fonte').value;
+        const espKey = document.getElementById('sel-espaco').value;
+        const cor = TEMAS[document.getElementById('sel-cor').value];
+
+        const pr = document.getElementById('print-root');
+        pr.innerHTML = `<div class="${fonte} ${ESPACO_PRINT[espKey]} text-slate-900" style="--cv-accent:${cor}">${renderizarTemplateHtml(layout, data)}</div>`;
+
+        const tituloOriginal = document.title;
+        document.title = `Curriculo-${(data.nome || 'Profissional').trim()}-${(data.sobrenome || '').trim()}`.replace(/\s+/g, '-').replace(/-+$/, '');
+        window.print();
+        setTimeout(() => { document.title = tituloOriginal; pr.innerHTML = ''; }, 1000);
+    }
+
+    // =============== EXPORTAÇÃO EM WORD (.doc semântico, formatação preservada) ===============
+    function exportarWord() {
+        const d = coletarDadosDoFormulario();
+        const b = blocosBase(d);
+        const cor = TEMAS[document.getElementById('sel-cor').value];
+        const nl = t => esc(t).replace(/\n/g, '<br>');
+        const secoes = [];
+
+        if (d.resumo) secoes.push(`<h2>Resumo Profissional</h2><p>${nl(d.resumo)}</p>`);
+        if (b.exps.length) secoes.push(`<h2>Experiência Profissional</h2>` + b.exps.map(e =>
+            `<p class="titulo-item">${esc(e.cargo)}${e.cargo && e.empresa ? ' — ' : ''}${esc(e.empresa)} <span class="periodo">${esc(e.periodo)}</span></p>` +
+            (e.local ? `<p class="sub">${esc(e.local)}</p>` : '') +
+            (e.desc ? `<p>${nl(e.desc)}</p>` : '')
+        ).join(''));
+        if (b.forms.length) secoes.push(`<h2>Formação Acadêmica</h2>` + b.forms.map(f =>
+            `<p class="titulo-item">${esc(f.curso)}${f.inst ? ' — ' + esc(f.inst) : ''} <span class="periodo">${esc(f.ano)}</span></p>`
+        ).join(''));
+        if (b.skills.length) secoes.push(`<h2>Competências</h2><p>${b.skills.join(', ')}</p>`);
+        if (b.idiomas.length) secoes.push(`<h2>Idiomas</h2><p>${b.idiomas.map(i => `${esc(i.nome)} (${esc(i.nivel)})`).join(', ')}</p>`);
+        if (d.certificacoes) secoes.push(`<h2>Certificações e Cursos</h2><p>${nl(d.certificacoes)}</p>`);
+        if (d.publicacoes) secoes.push(`<h2>Publicações, Prêmios e Voluntariado</h2><p>${nl(d.publicacoes)}</p>`);
+
+        const contato = [...b.contatoItens, ...b.linksItens].join(' &nbsp;•&nbsp; ');
+        const htmlContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head><meta charset="utf-8"><title>Currículo</title><style>
+body { font-family: Arial, sans-serif; font-size: 11pt; color: #222222; line-height: 1.45; }
+h1 { font-size: 20pt; color: #111111; margin: 0; }
+.cargo { font-size: 12pt; color: ${cor}; font-weight: bold; margin: 2pt 0 4pt 0; }
+.contato { font-size: 9pt; color: #555555; margin: 0 0 10pt 0; }
+h2 { font-size: 11pt; text-transform: uppercase; color: #111111; border-bottom: 1.5pt solid ${cor}; padding-bottom: 2pt; margin: 14pt 0 6pt 0; }
+.titulo-item { font-weight: bold; margin: 6pt 0 1pt 0; }
+.periodo { font-weight: normal; color: #666666; font-size: 9pt; }
+.sub { color: #888888; font-size: 9pt; margin: 0; }
+p { margin: 0 0 4pt 0; }
+</style></head>
+<body>
+<h1>${esc(d.nome)} ${esc(d.sobrenome)}</h1>
+${d.cargo ? `<p class="cargo">${esc(d.cargo)}</p>` : ''}
+${contato ? `<p class="contato">${contato}</p>` : ''}
+${secoes.join('')}
+</body></html>`;
+
+        const blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Curriculo-${(d.nome || 'Profissional').trim()}-${(d.sobrenome || '').trim()}.doc`.replace(/\s+/g, '-').replace(/-\.doc$/, '.doc');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    // =============== EXEMPLO DEMONSTRATIVO E SESSÃO ===============
+    function carregarExemplo() {
+        document.getElementById('inp-nome').value = 'Carlos Eduardo';
+        document.getElementById('inp-sobrenome').value = 'Oliveira';
+        document.getElementById('inp-email').value = 'carlos.oliveira@email.com.br';
+        document.getElementById('inp-telefone').value = '(11) 98888-7777';
+        document.getElementById('inp-localizacao').value = 'Campinas - SP';
+        document.getElementById('inp-cargo').value = 'Cientista de Dados Sênior / Pesquisador';
+        document.getElementById('inp-resumo').value = 'Pesquisador e gestor de projetos com mais de 8 anos de experiência no desenvolvimento de soluções orientadas a dados. Especialista em modelagem estatística aplicada à saúde, com histórico comprovado de liderança de equipes multidisciplinares.';
+        document.getElementById('inp-habilidades').value = 'Python, Linguagem R, Machine Learning, Escrita Científica, Liderança de Equipes, LGPD, Gestão Ágil';
+        document.getElementById('inp-links').value = 'linkedin.com/in/carloseduardo, lattes.cnpq.br/0000000000';
+        document.getElementById('inp-certificacoes').value = 'Certificado Profissional Data Science - IBM (2024)\nGestão de Projetos Avançado - PMI (2025)';
+        document.getElementById('inp-publicacoes').value = 'OLIVEIRA, C.E. Análise Molecular em Larga Escala. Journal of Biotech, 2025.\nCoordenador do Projeto Voluntário BioTech para Todos (inclusão científica nas escolas).';
+
+        document.getElementById('wrapper-experiencias').innerHTML = '';
+        [
+            { empresa: 'Instituto de Tecnologia Aplicada', cargo: 'Cientista de Dados e Pesquisador Principal', periodo: '2022 - Atual', local: 'São Paulo - SP', desc: 'Liderança no desenvolvimento de algoritmos preditivos e modelos estatísticos avançados para triagem farmacêutica acelerada.' },
+            { empresa: 'BioLab Diagnósticos', cargo: 'Analista de Pesquisa', periodo: '2018 - 2022', local: 'Campinas - SP', desc: 'Estruturação de pipelines de dados clínicos e automação de relatórios analíticos para a diretoria médica.' }
+        ].forEach(e => {
+            adicionarExperiencia();
+            const el = document.querySelector('#wrapper-experiencias > div:last-child');
+            el.querySelector('.exp-empresa').value = e.empresa;
+            el.querySelector('.exp-cargo').value = e.cargo;
+            el.querySelector('.exp-periodo').value = e.periodo;
+            el.querySelector('.exp-local').value = e.local;
+            el.querySelector('.exp-desc').value = e.desc;
+        });
+
+        document.getElementById('wrapper-formacoes').innerHTML = '';
+        [
+            { inst: 'UNICAMP', curso: 'Doutorado em Engenharia Genética e Biologia Molecular', ano: '2021' },
+            { inst: 'USP', curso: 'Mestrado em Bioinformática', ano: '2017' }
+        ].forEach(f => {
+            adicionarFormacao();
+            const el = document.querySelector('#wrapper-formacoes > div:last-child');
+            el.querySelector('.form-inst').value = f.inst;
+            el.querySelector('.form-curso').value = f.curso;
+            el.querySelector('.form-ano').value = f.ano;
+        });
+
+        document.getElementById('wrapper-idiomas').innerHTML = '';
+        [
+            { nome: 'Inglês', nivel: 'Fluente/Nativo' },
+            { nome: 'Espanhol', nivel: 'Intermediário' }
+        ].forEach(i => {
+            adicionarIdioma();
+            const el = document.querySelector('#wrapper-idiomas > div:last-child');
+            el.querySelector('.idioma-nome').value = i.nome;
+            el.querySelector('.idioma-nivel').value = i.nivel;
+        });
+
+        atualizarPreview();
+    }
+
+    function limparSessao() {
+        if (confirm('Deseja realmente limpar todos os campos digitados? Essa ação não pode ser desfeita.')) {
+            localStorage.removeItem('curriculopro_rascunho');
+            window.location.reload();
+        }
+    }
+
+    // =============== INICIALIZAÇÃO ===============
+    function inicializarFormularios() {
+        let restaurado = false;
+        const bruto = localStorage.getItem('curriculopro_rascunho');
+        if (bruto) {
+            try {
+                restaurarDadosDoEstado(JSON.parse(bruto));
+                restaurado = true;
+            } catch (e) { console.warn('Rascunho anterior inválido — iniciando em branco.'); }
+        }
+        if (!restaurado) {
+            adicionarExperiencia();
+            adicionarFormacao();
+        }
+        atualizarPreview();
+    }
+
+    window.onload = inicializarFormularios;
+    </script>
+</body>
+</html>
