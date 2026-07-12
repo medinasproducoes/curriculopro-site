@@ -430,7 +430,7 @@
             btn.classList.add('opacity-70', 'cursor-not-allowed');
 
             try {
-                const resp = await fetch('/.netlify/functions/create-payment', { method: 'POST' });
+                const resp = await fetch('/api/create-payment', { method: 'POST' });
                 const data = await resp.json();
 
                 if (!resp.ok || !data.url) {
