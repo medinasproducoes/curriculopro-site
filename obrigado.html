@@ -147,7 +147,7 @@
             </div>
 
             <div class="text-center pt-6 border-t border-slate-200">
-                <p class="text-xs text-slate-400">Prefere não enviar agora? Sem problemas — guarde este link ou entre em contato quando quiser pelo e-mail <a href="mailto:curriculopro.site@gmail.com" class="text-indigo-600 underline font-medium">curriculopro.site@gmail.com</a></p>
+                <p class="text-xs text-slate-400">Prefere não enviar agora? Sem problemas — guarde este link ou entre em contato quando quiser pelo nosso <a href="institucional.html#contato" class="text-indigo-600 underline font-medium">formulário de contato</a>.</p>
             </div>
         </div>
         <!-- fim do estado-manual -->
@@ -160,7 +160,6 @@
 
     <script>
         const NUMERO_WHATSAPP_SUPORTE = '5545991359764';
-        const EMAIL_SUPORTE = 'curriculopro.site@gmail.com';
         const HANDLE_INFINITEPAY = 'medina_pay';
 
         function mostrarEstado(id) {
@@ -224,9 +223,9 @@
             const d = coletarDadosConfirmacao();
             if (!d.valido) { document.getElementById('aviso-preencher').classList.remove('hidden'); return; }
             document.getElementById('aviso-preencher').classList.add('hidden');
-            const assunto = 'Confirmação de Pagamento - CurrículoPro';
-            const corpo = `Olá! Acabei de comprar o CurrículoPro e gostaria de confirmar meu pagamento.\n\nNome: ${d.nome}\nE-mail: ${d.email}${d.valor ? `\nValor pago: ${d.valor}` : ''}`;
-            window.location.href = `mailto:${EMAIL_SUPORTE}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+            const params = new URLSearchParams({ nome: d.nome, email: d.email, assunto: 'Pagamento não confirmado' });
+            if (d.valor) params.set('valor', d.valor);
+            window.location.href = `institucional.html?${params.toString()}#contato`;
         }
     </script>
 </body>
